@@ -43,7 +43,7 @@ function getRandomIntInclusive(min, max) {
     const filterDataButton = document.querySelector("#filter");
     const loadDataButton = document.querySelector("#data_load");
     const generateListButton = document.querySelector("#generate");
-    const textField = document.querySelector("#resto");
+    const textField = document.querySelector("#school_name");
     // Add a querySelector that targets your filter button here
     const loadAnimation = document.querySelector("#data_load_animation");
     loadAnimation.style.display = "none";
@@ -83,7 +83,7 @@ function getRandomIntInclusive(min, max) {
   
       console.log(formProps);
   
-      const newList = filterList(currentList, formProps.resto);
+      const newList = filterList(currentList, formProps.school_name);
   
       console.log(newList);
       injectHTML(newList);
