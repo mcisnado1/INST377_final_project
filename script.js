@@ -33,7 +33,6 @@ function cutPollingPlaceList(list) {
 
 async function mainEvent() {
   const mainForm = document.querySelector(".main_form");
-  const filterButton = document.querySelector("#filter_button");
   const loadDataButton = document.querySelector("#data_load");
   const generateListButton = document.querySelector("#generate");
   const textField = document.querySelector("#place");
@@ -41,6 +40,12 @@ async function mainEvent() {
   const loadAnimation = document.querySelector("#load_animation");
   loadAnimation.style.display = "none";
   generateListButton.classList.add("hidden");
+
+  const storedData = localStorage.getItem('storedData');
+  const parsedData = JSON.parse(storedData);
+  if (parsedData.length > 0) {
+    generateListButton.classList.remove("hidden"); 
+  }
 
   let currentList = [];
 
@@ -54,34 +59,16 @@ async function mainEvent() {
 
     const storedList = await results.json();
     localStorage.setItem('storedData', JSON.stringify(storedList));
-    if (storedList.length > 0) {
-      generateListButton.classList.remove("hidden");
-    }
+    
 
     loadAnimation.style.display = "none";
     //console.table(storedList);
   });
 
-  filterButton.addEventListener("click", (event) => {
-    console.log("clicked FilterButton");
-
-    const formData = new FormData(mainForm);
-    const formProps = Object.fromEntries(formData);
-
-    console.log(formProps);
-    const newList = filterList(currentList, formProps.place);
-
-    console.log(newList);
-    injectHTML(newList);
-  });
-
   generateListButton.addEventListener("click", (event) => {
     console.log("generate new list");
-    const recallList = localStorage.getItem('storedData');
-    console.log('what is the type of recalledList:', typeof recallList);
-    
-    currentList = cutPollingPlaceList(recallList);
-    console.log(recallList);
+
+    currentList = cutPollingPlaceList(parsedData);
     console.log(currentList);
     injectHTML(currentList);
   });
