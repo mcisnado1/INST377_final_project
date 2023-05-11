@@ -32,7 +32,7 @@ function cutPollingPlaceList(list) {
 }
 
 function initMap(){
-  const carto = L.map('map').setView([38.98, -76.93], 13);
+  const carto = L.map('map').setView([38.80, -76.90], 13);// PG County
   L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
     maxZoom: 19,
     attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
@@ -40,9 +40,27 @@ function initMap(){
   return carto;
 }
 
+function markerPlace(array, map){
+  console.log('array for markers', array);
+
+  map.eachLayer((layer) => {
+    if (layer instanceof L.Marker) {
+      layer.remove();
+    }
+  });
+
+  array.forEach((item) => {
+    console.log('markerPlace', item);
+    const {coordinates} = item.the_geom;
+    L.marker([coordinates[1], coordinates[0]]).addTo(map);
+  })
+}
+
+
 async function mainEvent() {
   const mainForm = document.querySelector(".main_form");
   const loadDataButton = document.querySelector("#data_load");
+  const clearDataButton = document.querySelector("#data_clear");
   const generateListButton = document.querySelector("#generate");
   const textField = document.querySelector("#place");
 
@@ -50,9 +68,12 @@ async function mainEvent() {
   loadAnimation.style.display = "none";
   generateListButton.classList.add("hidden");
 
+  const carto = initMap();
+
   const storedData = localStorage.getItem('storedData');
-  const parsedData = JSON.parse(storedData);
-  if (parsedData.length > 0) {
+  let parsedData = JSON.parse(storedData);
+ 
+  if (parsedData?.length > 0) {
     generateListButton.classList.remove("hidden"); 
   }
 
@@ -68,7 +89,11 @@ async function mainEvent() {
 
     const storedList = await results.json();
     localStorage.setItem('storedData', JSON.stringify(storedList));
+    parsedData = storedList;
     
+    if (parsedData?.length > 0) {
+      generateListButton.classList.remove("hidden"); 
+    }
 
     loadAnimation.style.display = "none";
     //console.table(storedList);
@@ -80,6 +105,7 @@ async function mainEvent() {
     currentList = cutPollingPlaceList(parsedData);
     console.log(currentList);
     injectHTML(currentList);
+    markerPlace(currentList, carto);
   });
 
   textField.addEventListener("input", (event) => {
@@ -87,7 +113,14 @@ async function mainEvent() {
     const newList = filterList(currentList, event.target.value);
     console.log(newList);
     injectHTML(newList);
+    markerPlace(newList, carto);
   });
+
+  clearDataButton.addEventListener("click", (event) => {
+    console.log('clear browser data');
+    localStorage.clear();
+    console.log('localStorage Check', localStorage.getItem("storedData"));
+  })
 }
 
 document.addEventListener("DOMContentLoaded", async () => mainEvent()); // the async keyword means we can make API requests
