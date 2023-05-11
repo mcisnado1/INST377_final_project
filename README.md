@@ -2,7 +2,7 @@ Link to Github pages: **https://mcisnado1.github.io/INST377_final_project/**
 
 #"Polling Places in Prince Georges County"
 
-This website allow users to load data about polling site located at Prince Georges County (PGC).
+This website allow users to load data about polling sites located at Prince Georges County (PGC).
 In this webpage users will be able to generate radom list of 20 random polling sites located in PGC.
 They will also be able to filter polling sites names to find them on the map more effectivetely. 
 This website will help voters to have a visual prespective of the polling sites available in the PGC.
