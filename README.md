@@ -4,7 +4,7 @@ Link to Github pages: **https://mcisnado1.github.io/INST377_final_project/**
 
 Project description:
 
-This website allow users to load data about polling sites located at Prince Georges County (PGC). This small program uses data from Prince Georges API (https://data.princegeorgescountymd.gov/).
+This website allow users to load data about polling sites located at Prince Georges County (PGC). This small program uses data from Prince Georges API (https://data.princegeorgescountymd.gov/), specifically the polling places data (https://data.princegeorgescountymd.gov/resource/2v6d-7p4w.json).
 In this webpage users will be able to generate radom list of 20 polling sites located in PGC.
 They will also be able to filter polling sites by name to find them on the map more effectivetely. The visualization provided to users in this application is a spatial data visualization. Therefore, the implementatio of leaflet library was necessary. 
 This website will help voters to have a visual prespective of the polling sites available in the PGC area.
